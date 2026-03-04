@@ -1,4 +1,5 @@
 #include "createfile.h"
+#include "editor.h"
 #include "ui_createfile.h"
 #include <fstream>
 #include <QFileDialog>
@@ -49,6 +50,9 @@ void CreateFile::on_pb_create_clicked()
         out << "}\n";
         out.close();
         this->close();
+        Editor* editor = new Editor(path_);
+        editor->setAttribute(Qt::WA_DeleteOnClose);
+        editor->show();
     }else{
         QMessageBox::information(this, "TurboIDE", "Файл не удалось открыть!");
         return;
