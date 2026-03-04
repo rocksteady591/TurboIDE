@@ -6,12 +6,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1270</width>
+    <height>720</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1270</width>
+    <height>720</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">font: 300 11pt &quot;Cantarell&quot;;
+color: rgb(197, 181, 151);
+background-color: rgb(40, 40, 40);</string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
@@ -19,12 +30,72 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>24</height>
+     <width>1270</width>
+     <height>23</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>file</string>
+    </property>
+    <addaction name="action"/>
+    <addaction name="actionopen"/>
+    <addaction name="actionopen_project"/>
+    <addaction name="actionclose_file"/>
+    <addaction name="actionclose_project"/>
+   </widget>
+   <widget class="QMenu" name="menugit">
+    <property name="title">
+     <string>git</string>
+    </property>
+    <addaction name="actioncommit"/>
+    <addaction name="actionpush"/>
+    <addaction name="actionpull"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menugit"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action">
+   <property name="text">
+    <string>create</string>
+   </property>
+  </action>
+  <action name="actionopen">
+   <property name="text">
+    <string>open</string>
+   </property>
+  </action>
+  <action name="actionopen_project">
+   <property name="text">
+    <string>open project</string>
+   </property>
+  </action>
+  <action name="actionclose_file">
+   <property name="text">
+    <string>close file</string>
+   </property>
+  </action>
+  <action name="actionclose_project">
+   <property name="text">
+    <string>close project</string>
+   </property>
+  </action>
+  <action name="actioncommit">
+   <property name="text">
+    <string>commit</string>
+   </property>
+  </action>
+  <action name="actionpush">
+   <property name="text">
+    <string>push</string>
+   </property>
+  </action>
+  <action name="actionpull">
+   <property name="text">
+    <string>pull</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

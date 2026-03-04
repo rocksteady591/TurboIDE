@@ -12,11 +12,12 @@ class Editor : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit Editor(QWidget *parent = nullptr);
+    explicit Editor(const QString& path_, QWidget *parent = nullptr);
     ~Editor();
 
 private:
     Ui::Editor *ui;
+    QString root_path_;
 };
 
 #endif // EDITOR_H

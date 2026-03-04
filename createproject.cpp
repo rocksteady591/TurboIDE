@@ -1,4 +1,5 @@
 #include "createproject.h"
+#include "editor.h"
 #include "ui_createproject.h"
 #include <fstream>
 #include <QFileDialog>
@@ -85,6 +86,9 @@ void CreateProject::on_pb_create_clicked()
             out_cpp << "\tstd::cout << \"Hello, world!\";\n";
             out_cpp << "}\n";
             this->close();
+            Editor* editor = new Editor(path_ + "/" + project_name_);
+            editor->setAttribute(Qt::WA_DeleteOnClose);
+            editor->show();
         }else {
             return;
         }

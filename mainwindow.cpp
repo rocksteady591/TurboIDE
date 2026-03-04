@@ -3,6 +3,7 @@
 #include "createproject.h"
 #include "createfile.h"
 #include "gitaddwidget.h"
+#include "editor.h"
 #include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -63,6 +64,10 @@ void MainWindow::on_pb_open_project_clicked()
     if(folder_path.isEmpty()){
         return;
     }
+    Editor* editor = new Editor(folder_path);
+    editor->setAttribute(Qt::WA_DeleteOnClose);
+    editor->show();
+    this->close();
 }
 
 
