@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://ваш-путь-к-логотипу/logo.png" alt="TurboIDE Logo" width="200">
+  <img src="assets/logo.png" alt="Logo" width="200">
 </p>
 
 <h1 align="center">TurboIDE</h1>
