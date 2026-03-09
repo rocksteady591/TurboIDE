@@ -57,6 +57,7 @@ public:
 private:
     Ui::Editor* ui;
     QString root_path_;
+    QString open_file_;
 };
 
 #endif // EDITOR_H

@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
         btn->setFlat(true);
     }
     this->setWindowTitle("PrimalIDE");
-    delete ui->statusbar;
+    ui->statusbar->hide();
     this->setStyleSheet(R"(
     QPushButton {
         background-color: transparent;

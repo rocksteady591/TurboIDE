@@ -7,6 +7,8 @@
 #include <QPlainTextEdit>
 #include <QPainter>
 #include <QTextBlock>
+#include <QMessageBox>
+#include <QShortcut>
 
 void CodeEditor::resizeEvent(QResizeEvent* event) {
     QPlainTextEdit::resizeEvent(event);
@@ -53,7 +55,7 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent* event) {
     QPainter painter(lineNumberArea_);
     painter.fillRect(event->rect(), QColor("#1a1a1a"));
 
-    QTextBlock block = firstVisibleBlock(); // теперь без editor_->
+    QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
     int top = qRound(blockBoundingGeometry(block)
                          .translated(contentOffset()).top());
@@ -81,6 +83,8 @@ void CodeEditor::updateLineNumberArea(const QRect& rect, int dy) {
     updateLineNumberAreaWidth();
 }
 
+
+
 Editor::Editor(const QString& path, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Editor)
@@ -88,7 +92,11 @@ Editor::Editor(const QString& path, QWidget *parent)
 {
     ui->setupUi(this);
     this->setWindowTitle("PrimalIDE");
-    delete ui->statusbar;
+    if (ui->statusbar) {
+        ui->statusbar->hide(); // или deleteLater()
+    }
+    //шорткат на сохранение файла из QPlainTextEdit
+    QShortcut* shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_S), this);
     //сплиттер горизонтальный
     QSplitter* splitter = new QSplitter(Qt::Horizontal, this);
     //модель файловой системы
@@ -101,12 +109,36 @@ Editor::Editor(const QString& path, QWidget *parent)
     tree->setColumnHidden(1, true);
     tree->setColumnHidden(2, true);
     tree->setColumnHidden(3, true);
-
     //редактор
     CodeEditor* text_edit = new CodeEditor(splitter);
-    text_edit->setAttribute(Qt::WA_DeleteOnClose);
+    connect(shortcut, &QShortcut::activated, this, [text_edit, this](){
+        QFile file(open_file_);
+        if(file.open(QIODevice::WriteOnly | QIODevice::Text)){
+            QString text_with_window(text_edit->toPlainText());
+            file.write(text_with_window.toUtf8());
+            file.close();
+        }else{
+            QMessageBox::information(this, "TurboIDE", "Невозможно сохранить файл");
+        }
+    });
+    //text_edit->setAttribute(Qt::WA_DeleteOnClose);
     setCentralWidget(splitter);
     splitter->setSizes({250, 750});
+
+
+    connect(tree, &QTreeView::clicked, this, [model, text_edit, this](const QModelIndex& index){
+        QString path = model->filePath(index);
+        open_file_ = path;
+        QFile file_in_textEdit(path);
+        if(file_in_textEdit.open(QIODevice::ReadOnly | QIODevice::Text)){
+            QTextStream file_is_string(&file_in_textEdit);
+            text_edit->setPlainText(file_is_string.readAll());
+            text_edit->setWindowFilePath(open_file_);
+            file_in_textEdit.close();
+        }else{
+            QMessageBox::information(this, "TurboIDE", "Невозможно открыть файл");
+        }
+    });
 }
 
 
@@ -123,3 +155,4 @@ Editor::~Editor()
 {
     delete ui;
 }
+
