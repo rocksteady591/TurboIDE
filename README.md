@@ -20,9 +20,7 @@
 
 ## 🇷🇺 Русский
 
-**TurboIDE** — это амбициозный проект по созданию максимально удобной и производительной среды разработки. На данный момент фокус направлен на **C++**, но архитектура закладывается с учетом будущей поддержки множества других языков программирования.
-
-Наша цель — создать инструмент, который станет стандартом разработки как в России, так и на международной арене.
+**TurboIDE** — это проект по созданию среды разработки. На данный момент фокус направлен на **C++**, но архитектура закладывается с учетом будущей поддержки других языков программирования.
 
 ### ✨ Основные преимущества
 * **Кроссплатформенность:** Работает на Windows, Linux и macOS.
@@ -40,9 +38,7 @@
 
 ## 🇺🇸 English
 
-**TurboIDE** is an ambitious project dedicated to building a highly intuitive and high-performance IDE. Currently focused on **C++**, the architecture is designed to support multiple programming languages in the future.
-
-Our mission is to create a tool that sets a new standard for development efficiency globally.
+**TurboIDE** is an project dedicated to building a high-performance IDE. Currently focused on **C++**, the architecture is designed to support programming languages in the future.
 
 ### ✨ Key Features
 * **Cross-platform:** Native support for Windows, Linux, and macOS.
