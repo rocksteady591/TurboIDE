@@ -13,13 +13,7 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">background-color: rgb(40, 40, 40);</string>
-  </property>
   <widget class="QWidget" name="centralwidget">
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(40, 40, 40);</string>
-   </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <spacer name="verticalSpacer_2">
@@ -50,10 +44,6 @@
           <height>200</height>
          </size>
         </property>
-        <property name="styleSheet">
-         <string notr="true">color: rgb(197, 181, 151);
-font: 300 8pt &quot;Cantarell&quot;;</string>
-        </property>
         <property name="title">
          <string/>
         </property>
@@ -67,9 +57,6 @@ font: 300 8pt &quot;Cantarell&quot;;</string>
          </item>
          <item>
           <widget class="QPushButton" name="pb_new_file">
-           <property name="styleSheet">
-            <string notr="true">font: 300 11pt &quot;Cantarell&quot;;</string>
-           </property>
            <property name="text">
             <string>+New file</string>
            </property>
@@ -77,9 +64,6 @@ font: 300 8pt &quot;Cantarell&quot;;</string>
          </item>
          <item>
           <widget class="QPushButton" name="pb_open_project">
-           <property name="styleSheet">
-            <string notr="true">font: 300 11pt &quot;Cantarell&quot;;</string>
-           </property>
            <property name="text">
             <string>Open project</string>
            </property>
@@ -90,9 +74,6 @@ font: 300 8pt &quot;Cantarell&quot;;</string>
          </item>
          <item>
           <widget class="QPushButton" name="pb_create_project">
-           <property name="styleSheet">
-            <string notr="true">font: 300 11pt &quot;Cantarell&quot;;</string>
-           </property>
            <property name="text">
             <string>Create project</string>
            </property>
@@ -100,11 +81,8 @@ font: 300 8pt &quot;Cantarell&quot;;</string>
          </item>
          <item>
           <widget class="QPushButton" name="pb_clone_repo">
-           <property name="styleSheet">
-            <string notr="true">font: 300 11pt &quot;Cantarell&quot;;</string>
-           </property>
            <property name="text">
-            <string>Clone ropository</string>
+            <string>Clone repository</string>
            </property>
           </widget>
          </item>
@@ -113,20 +91,12 @@ font: 300 8pt &quot;Cantarell&quot;;</string>
       </item>
       <item row="1" column="0">
        <widget class="QGroupBox" name="gb_config">
-        <property name="styleSheet">
-         <string notr="true">color: rgb(197, 181, 151);
-font: 300 8pt &quot;Cantarell&quot;;</string>
-        </property>
         <property name="title">
          <string>CONFIGURE</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
           <widget class="QPushButton" name="pb_settings">
-           <property name="styleSheet">
-            <string notr="true">font: 300 11pt &quot;Cantarell&quot;;
-background-color: rgb(40, 40, 40);</string>
-           </property>
            <property name="text">
             <string>Settings</string>
            </property>

@@ -19,6 +19,9 @@ CreateProject::CreateProject(QWidget *parent)
         font-size: 11px;
         text-align: left;
     }
+    QLabel{
+        color: #7a6e65;
+    }
     QMessageBox {
         background-color: transparent;
         color: #c5b597;

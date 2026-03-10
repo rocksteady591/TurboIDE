@@ -19,20 +19,13 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">background-color: rgb(40, 40, 40);</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QLabel" name="lb_proj_name">
-       <property name="styleSheet">
-        <string notr="true">color: rgb(197, 181, 151);
-font: 300 11pt &quot;Cantarell&quot;;</string>
-       </property>
        <property name="text">
-        <string>Projec Name</string>
+        <string>Project Name</string>
        </property>
       </widget>
      </item>
@@ -44,10 +37,6 @@ font: 300 11pt &quot;Cantarell&quot;;</string>
          <height>25</height>
         </size>
        </property>
-       <property name="styleSheet">
-        <string notr="true">font: italic 9pt &quot;Cantarell&quot;;
-color: rgb(197, 181, 151);</string>
-       </property>
        <property name="text">
         <string>test_project</string>
        </property>
@@ -55,10 +44,6 @@ color: rgb(197, 181, 151);</string>
      </item>
      <item>
       <widget class="QLabel" name="lb_proj_path">
-       <property name="styleSheet">
-        <string notr="true">color: rgb(197, 181, 151);
-font: 300 11pt &quot;Cantarell&quot;;</string>
-       </property>
        <property name="text">
         <string>Project Path</string>
        </property>
@@ -67,19 +52,10 @@ font: 300 11pt &quot;Cantarell&quot;;</string>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QLineEdit" name="le_project_path">
-         <property name="styleSheet">
-          <string notr="true">font: italic 9pt &quot;Cantarell&quot;;
-color: rgb(197, 181, 151);</string>
-         </property>
-        </widget>
+        <widget class="QLineEdit" name="le_project_path"/>
        </item>
        <item>
         <widget class="QPushButton" name="pb_create_2">
-         <property name="styleSheet">
-          <string notr="true">color: rgb(197, 181, 151);
-font: 300 11pt &quot;Cantarell&quot;;</string>
-         </property>
          <property name="text">
           <string>Path</string>
          </property>
@@ -89,10 +65,6 @@ font: 300 11pt &quot;Cantarell&quot;;</string>
      </item>
      <item>
       <widget class="QPushButton" name="pb_create">
-       <property name="styleSheet">
-        <string notr="true">color: rgb(197, 181, 151);
-font: 300 11pt &quot;Cantarell&quot;;</string>
-       </property>
        <property name="text">
         <string>CREATE</string>
        </property>

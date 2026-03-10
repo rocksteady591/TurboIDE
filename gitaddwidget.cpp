@@ -13,6 +13,33 @@ GitAddWidget::GitAddWidget(QWidget *parent)
     ui->setupUi(this);
     ui->progressBar->setValue(0);
     ui->progressBar->hide();
+
+    this->setStyleSheet(R"(
+        QMainWindow {
+            background-color: #3b3330;
+        }
+        QWidget {
+            background-color: #3b3330;
+        }
+        QLabel{
+            color: #7a6e65;
+        }
+        QPushButton {
+            background-color: #3b3330;
+            border: none;
+            color: #7a6e65;
+            padding: 6px 12px;
+            font-size: 11px;
+            text-align: left;
+        }
+        QPushButton:hover {
+            color: #f0dfc0;
+        }
+        QPushButton:pressed {
+            color: #c5b597;
+        }
+
+)");
 }
 
 GitAddWidget::~GitAddWidget()

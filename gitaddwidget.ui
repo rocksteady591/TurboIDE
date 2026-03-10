@@ -25,11 +25,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">background-color: rgb(40, 40, 40);
-font: 300 11pt &quot;Cantarell&quot;;
-color: rgb(197, 181, 151);</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item alignment="Qt::AlignmentFlag::AlignHCenter">
     <widget class="QLabel" name="label">
@@ -54,12 +49,7 @@ color: rgb(197, 181, 151);</string>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLineEdit" name="le_path">
-       <property name="styleSheet">
-        <string notr="true">font: italic 9pt &quot;Cantarell&quot;;
-color: rgb(197, 181, 151);</string>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="le_path"/>
      </item>
      <item>
       <widget class="QPushButton" name="pb_path">
@@ -78,15 +68,7 @@ color: rgb(197, 181, 151);</string>
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="le_github_ssh">
-     <property name="styleSheet">
-      <string notr="true">color: rgb(197, 181, 151);
-font: italic 9pt &quot;Cantarell&quot;;</string>
-     </property>
-     <property name="inputMask">
-      <string/>
-     </property>
-    </widget>
+    <widget class="QLineEdit" name="le_github_ssh"/>
    </item>
    <item alignment="Qt::AlignmentFlag::AlignHCenter">
     <widget class="QPushButton" name="pb_clone">

@@ -10,6 +10,53 @@
 #include <QMessageBox>
 #include <QShortcut>
 
+
+CppHighlighter::CppHighlighter(QTextDocument* parent) : QSyntaxHighlighter(parent){
+    QTextCharFormat keywordFormat;
+    keywordFormat.setForeground(QColor("#c96c6b"));
+    keywordFormat.setFontWeight(QFont::Bold);
+
+    QStringList keywords = {
+        "\\bint\\b", "\\bvoid\\b", "\\bclass\\b", "\\bstruct\\b",
+        "\\bif\\b", "\\belse\\b", "\\bfor\\b", "\\bwhile\\b",
+        "\\breturn\\b", "\\bconst\\b", "\\bauto\\b", "\\bbool\\b"
+    };
+
+    for(const auto& keyword : keywords){
+        rules_.append({QRegularExpression(keyword), keywordFormat});
+    }
+
+    QTextCharFormat commentFormat;
+    commentFormat.setForeground(QColor("#6a9955"));
+    rules_.append({QRegularExpression("//[^\n]*"), commentFormat});
+
+    QTextCharFormat stringFormat;
+    stringFormat.setForeground(QColor("#ce9178"));
+    rules_.append({QRegularExpression("\".*\""), stringFormat});
+
+    QTextCharFormat funcFormat;
+    funcFormat.setForeground(QColor("#65a2de")); // жёлтый
+    rules_.append({ QRegularExpression("\\b[A-Za-z_][A-Za-z0-9_]*(?=\\()"), funcFormat });
+
+    QTextCharFormat methodFormat;
+    methodFormat.setForeground(QColor("#65a2de"));
+    rules_.append({ QRegularExpression("(?<=\\.)[A-Za-z_][A-Za-z0-9_]*(?=\\()"), methodFormat });
+
+    QTextCharFormat classFormat;
+    classFormat.setForeground(QColor("#7864a0"));
+    rules_.append({QRegularExpression("\\b[A-Za-z_][A-Za-z0-9_]*(?=\\::)"), classFormat});
+}
+
+void CppHighlighter::highlightBlock(const QString& text) {
+    for(const Rule& rule : rules_){
+        QRegularExpressionMatchIterator it = rule.pattern.globalMatch(text);
+        while(it.hasNext()){
+            QRegularExpressionMatch match = it.next();
+            setFormat(match.capturedStart(), match.capturedLength(), rule.format);
+        }
+    }
+}
+
 void CodeEditor::resizeEvent(QResizeEvent* event) {
     QPlainTextEdit::resizeEvent(event);
 
@@ -91,10 +138,42 @@ Editor::Editor(const QString& path, QWidget *parent)
     , root_path_(path)
 {
     ui->setupUi(this);
-    this->setWindowTitle("PrimalIDE");
+    this->setWindowTitle("TurboIDE");
     if (ui->statusbar) {
-        ui->statusbar->hide(); // или deleteLater()
+        ui->statusbar->hide();
     }
+    this->setStyleSheet(R"(
+        QMainWindow {
+            background-color: #3b3330;
+        }
+        QWidget {
+            background-color: #3b3330;
+        }
+        QLabel{
+            color: #7a6e65;
+        }
+        QTreeView{
+            color: #7a6e65;
+        }
+        QPlainTextEdit{
+            color: #ffffff;
+            background-color: #262624;
+        }
+        QPushButton {
+            background-color: #3b3330;
+            border: none;
+            color: #7a6e65;
+            padding: 6px 12px;
+            font-size: 11px;
+            text-align: left;
+        }
+        QPushButton:hover {
+            color: #f0dfc0;
+        }
+        QPushButton:pressed {
+            color: #c5b597;
+        }
+)");
     //шорткат на сохранение файла из QPlainTextEdit
     QShortcut* shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_S), this);
     //сплиттер горизонтальный
@@ -121,6 +200,7 @@ Editor::Editor(const QString& path, QWidget *parent)
             QMessageBox::information(this, "TurboIDE", "Невозможно сохранить файл");
         }
     });
+    new CppHighlighter(text_edit->document());
     //text_edit->setAttribute(Qt::WA_DeleteOnClose);
     setCentralWidget(splitter);
     splitter->setSizes({250, 750});

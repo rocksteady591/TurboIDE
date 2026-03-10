@@ -11,32 +11,32 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    for (auto btn : this->findChildren<QPushButton*>()) {
-        btn->setFlat(true);
-    }
-    this->setWindowTitle("PrimalIDE");
+    this->setWindowTitle("TurboIDE");
     ui->statusbar->hide();
     this->setStyleSheet(R"(
-    QPushButton {
-        background-color: transparent;
-        border: none;
-        color: #c5b597;
-        padding: 6px 12px;
-        font-size: 11px;
-        text-align: left;
-    }
-    QPushButton:flat {
-        background-color: #5b524c;
-    }
-    QPushButton:hover {
-        background-color: #5b524c;
-        color: #c5b597;
-    }
-
-    QPushButton:pressed {
-        background-color: #5b524c;
-    }
-
+        QMainWindow {
+            background-color: #3b3330;
+        }
+        QWidget {
+            background-color: #3b3330;
+        }
+        QLabel{
+            color: #7a6e65;
+        }
+        QPushButton {
+            background-color: #3b3330;
+            border: none;
+            color: #7a6e65;
+            padding: 6px 12px;
+            font-size: 11px;
+            text-align: left;
+        }
+        QPushButton:hover {
+            color: #f0dfc0;
+        }
+        QPushButton:pressed {
+            color: #c5b597;
+        }
 )");
 
 }

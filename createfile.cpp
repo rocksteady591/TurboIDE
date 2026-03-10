@@ -11,6 +11,35 @@ CreateFile::CreateFile(QWidget *parent)
 {
     ui->setupUi(this);
     ui->le_file_name->setText(file_name_);
+    this->setStyleSheet(R"(
+        QMainWindow {
+            background-color: #3b3330;
+        }
+        QWidget {
+            background-color: #3b3330;
+        }
+        QLabel{
+            color: #7a6e65;
+        }
+        QLineEdit{
+            color: #7a6e65;
+            font-size: 11px;
+        }
+        QPushButton {
+            background-color: #3b3330;
+            border: none;
+            color: #7a6e65;
+            padding: 6px 12px;
+            font-size: 11px;
+            text-align: left;
+        }
+        QPushButton:hover {
+            color: #f0dfc0;
+        }
+        QPushButton:pressed {
+            color: #c5b597;
+        }
+)");
 }
 
 CreateFile::~CreateFile()

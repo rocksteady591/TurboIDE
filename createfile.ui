@@ -25,11 +25,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">background-color: rgb(40, 40, 40);
-font: 300 11pt &quot;Cantarell&quot;;
-color: rgb(197, 181, 151);</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -41,12 +36,7 @@ color: rgb(197, 181, 151);</string>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="le_file_name">
-       <property name="styleSheet">
-        <string notr="true">font: italic 9pt &quot;Cantarell&quot;;
-color: rgb(197, 181, 151);</string>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="le_file_name"/>
      </item>
      <item>
       <widget class="QLabel" name="label">
@@ -58,11 +48,7 @@ color: rgb(197, 181, 151);</string>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLineEdit" name="le_file_path">
-         <property name="styleSheet">
-          <string notr="true">font: italic 9pt &quot;Cantarell&quot;;</string>
-         </property>
-        </widget>
+        <widget class="QLineEdit" name="le_file_path"/>
        </item>
        <item>
         <widget class="QPushButton" name="pb_path">

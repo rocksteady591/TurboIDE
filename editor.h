@@ -4,11 +4,29 @@
 #include <QFileSystemModel>
 #include <QMainWindow>
 #include <QPlainTextEdit>
+#include <QRegularExpression>
+#include <QSyntaxHighlighter>
+#include <QTextCharFormat>
 
 namespace Ui {
 class Editor;
 }
 class CodeEditor;
+
+class CppHighlighter : public QSyntaxHighlighter{
+    Q_OBJECT
+public:
+    explicit CppHighlighter(QTextDocument* parent);
+protected:
+    void highlightBlock(const QString& text) override;
+
+private:
+    struct Rule {
+        QRegularExpression pattern;
+        QTextCharFormat format;
+    };
+    QList<Rule> rules_;
+};
 
 class MyQFileSystemModel : public QFileSystemModel {
     Q_OBJECT
