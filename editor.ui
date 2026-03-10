@@ -26,7 +26,7 @@
      <x>0</x>
      <y>0</y>
      <width>1270</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -47,8 +47,16 @@
     <addaction name="actionpush"/>
     <addaction name="actionpull"/>
    </widget>
+   <widget class="QMenu" name="menuterminal">
+    <property name="title">
+     <string>terminal</string>
+    </property>
+    <addaction name="actionnew_terminal"/>
+    <addaction name="actionclose_terminal"/>
+   </widget>
    <addaction name="menu"/>
    <addaction name="menugit"/>
+   <addaction name="menuterminal"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action">
@@ -89,6 +97,16 @@
   <action name="actionpull">
    <property name="text">
     <string>pull</string>
+   </property>
+  </action>
+  <action name="actionnew_terminal">
+   <property name="text">
+    <string>new terminal</string>
+   </property>
+  </action>
+  <action name="actionclose_terminal">
+   <property name="text">
+    <string>close terminal</string>
    </property>
   </action>
  </widget>

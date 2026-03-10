@@ -9,6 +9,9 @@
 #include <QTextBlock>
 #include <QMessageBox>
 #include <QShortcut>
+#include <QVBoxLayout>
+#include <QLineEdit>
+#include <QProcess>
 
 
 CppHighlighter::CppHighlighter(QTextDocument* parent) : QSyntaxHighlighter(parent){
@@ -188,8 +191,52 @@ Editor::Editor(const QString& path, QWidget *parent)
     tree->setColumnHidden(1, true);
     tree->setColumnHidden(2, true);
     tree->setColumnHidden(3, true);
+
+    //вертикальный сплиттер
+    QSplitter* vertical_splitter = new QSplitter(Qt::Vertical, splitter);
+
     //редактор
-    CodeEditor* text_edit = new CodeEditor(splitter);
+    CodeEditor* text_edit = new CodeEditor(vertical_splitter);
+    //панель терминала
+    QWidget* terminalPanel = new QWidget(vertical_splitter);
+    QVBoxLayout* termLayout = new QVBoxLayout(terminalPanel);
+    termLayout->setContentsMargins(0, 0, 0, 0);
+    QPlainTextEdit* terminalOutput = new QPlainTextEdit(terminalPanel);
+    terminalOutput->setReadOnly(true);
+    QLineEdit* inputTerminal = new QLineEdit(terminalPanel);
+    inputTerminal->setPlaceholderText("$ введите команду...");
+    termLayout->addWidget(terminalOutput);
+    termLayout->addWidget(inputTerminal);
+    terminalPanel->hide();
+    //bash процесс
+    QProcess* bash_process = new QProcess(this);
+    bash_process->setWorkingDirectory(root_path_);
+    bash_process->start("bash");
+    connect(bash_process, &QProcess::readyReadStandardOutput, this, [=](){
+        terminalOutput->appendPlainText(bash_process->readAllStandardOutput());
+    });
+    connect(bash_process, &QProcess::readyReadStandardError, this, [=](){
+        terminalOutput->appendPlainText(bash_process->readAllStandardError());
+    });
+    connect(inputTerminal, &QLineEdit::returnPressed, this, [=](){
+        QString cmd = inputTerminal->text();
+        terminalOutput->appendPlainText("$ " + cmd);
+        bash_process->write((cmd + "\n").toUtf8());
+        inputTerminal->clear();
+    });
+    connect(ui->actionnew_terminal, &QAction::triggered, this, [=](){
+        if(!terminalPanel->isVisible()){
+            terminalPanel->show();
+            terminalPanel->setFocus();
+        }
+    });
+    connect(ui->actionclose_terminal, &QAction::triggered, this, [=](){
+        if(terminalPanel->isVisible()){
+            terminalPanel->hide();
+        }
+    });
+
+
     connect(shortcut, &QShortcut::activated, this, [text_edit, this](){
         QFile file(open_file_);
         if(file.open(QIODevice::WriteOnly | QIODevice::Text)){
