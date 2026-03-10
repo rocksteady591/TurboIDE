@@ -14,6 +14,7 @@ class CreateFile : public QDialog
 
 public:
     explicit CreateFile(QWidget *parent = nullptr);
+    explicit CreateFile(const QString& path, QWidget *parent = nullptr);
     ~CreateFile();
 
 private slots:
@@ -25,6 +26,7 @@ private slots:
 
 private:
     Ui::CreateFile *ui;
+    bool create_file_in_current_folder_ = false;
     QString path_;
     QString file_name_ = "test_file.cpp";
 };

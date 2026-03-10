@@ -1,3 +1,4 @@
+#include "createfile.h"
 #include "editor.h"
 #include "ui_editor.h"
 
@@ -155,6 +156,16 @@ Editor::Editor(const QString& path, QWidget *parent)
         QLabel{
             color: #7a6e65;
         }
+        QAction{
+            border: #062d44;
+            color: #7a6e65;
+            background-color: #000a11;
+        }
+        QMenu{
+            color: #7a6e65;
+            border: #062d44;
+            background-color: #000a11;
+        }
         QTreeView{
             color: #7a6e65;
         }
@@ -191,6 +202,10 @@ Editor::Editor(const QString& path, QWidget *parent)
     tree->setColumnHidden(1, true);
     tree->setColumnHidden(2, true);
     tree->setColumnHidden(3, true);
+
+    //создание контекстного меню
+    tree->setContextMenuPolicy(Qt::CustomContextMenu);
+
 
     //вертикальный сплиттер
     QSplitter* vertical_splitter = new QSplitter(Qt::Vertical, splitter);
@@ -248,12 +263,11 @@ Editor::Editor(const QString& path, QWidget *parent)
         }
     });
     new CppHighlighter(text_edit->document());
-    //text_edit->setAttribute(Qt::WA_DeleteOnClose);
     setCentralWidget(splitter);
     splitter->setSizes({250, 750});
 
 
-    connect(tree, &QTreeView::clicked, this, [model, text_edit, this](const QModelIndex& index){
+    connect(tree, &QTreeView::clicked, this, [model, text_edit, tree, this](const QModelIndex& index){
         QString path = model->filePath(index);
         open_file_ = path;
         QFile file_in_textEdit(path);
@@ -263,9 +277,62 @@ Editor::Editor(const QString& path, QWidget *parent)
             text_edit->setWindowFilePath(open_file_);
             file_in_textEdit.close();
         }else{
-            QMessageBox::information(this, "TurboIDE", "Невозможно открыть файл");
+            bool isExpanded = tree->isExpanded(index);
+            tree->setExpanded(index, !isExpanded);
+
         }
     });
+
+    connect(tree, &QTreeView::customContextMenuRequested, this, [this, tree, model](){
+        QPoint pos = QCursor::pos();
+        this->showContextMenu(pos, tree, model);
+    });
+}
+
+void Editor::showContextMenu(const QPoint& pos, QTreeView* tree, MyQFileSystemModel* model){
+    QPoint localPos = tree->viewport()->mapFromGlobal(pos);
+    QModelIndex index = tree->indexAt(localPos);
+    if(index.isValid()){
+        QMenu contextMenu(this);
+        QAction* actionDelete = contextMenu.addAction("Delete");
+        QAction* actionNewFile = contextMenu.addAction("New file");
+        QAction* actionNewFolder = contextMenu.addAction("New folder");
+
+        connect(actionNewFile, &QAction::triggered, this, [index, model](){
+            if(model->isDir(index)){
+                QString folderPath = model->filePath(index);
+                CreateFile* createNewFile = new CreateFile(folderPath);
+                createNewFile->setAttribute(Qt::WA_DeleteOnClose);
+                createNewFile->setWindowTitle("Create file");
+                createNewFile->show();
+            }
+        });
+
+        connect(actionDelete, &QAction::triggered, this, [model, this, index](){
+            if(model->isDir(index)){
+                QDir current_dir = model->filePath(index);
+                if(current_dir.exists()){
+                    if(current_dir.removeRecursively()){
+                        QMessageBox::information(this, "TurboIDE", "Папка успешно удалена");
+                    }else{
+                        QMessageBox::information(this, "TurboIDE", "Ошибка, не удалось удалить папку");
+                    }
+                }
+            }else{
+                if(QFile::remove(model->filePath(index))){
+                    QMessageBox::information(this, "TurboIDE", "Файл успешно удален");
+                }else{
+                    QMessageBox::information(this, "TurboIDE", "Ошибка, не удалось удалить файл");
+                }
+            }
+        });
+
+        connect(actionNewFolder, &QAction::triggered, this, [=](){
+
+        });
+
+        contextMenu.exec(tree->viewport()->mapToGlobal(pos));
+    }
 }
 
 

@@ -8,6 +8,8 @@
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
 
+
+class QTreeView;
 namespace Ui {
 class Editor;
 }
@@ -72,6 +74,8 @@ class Editor : public QMainWindow {
 public:
     explicit Editor(const QString& path, QWidget* parent = nullptr);
     ~Editor();
+private slots:
+    void showContextMenu(const QPoint& pos, QTreeView* tree, MyQFileSystemModel* model);
 private:
     Ui::Editor* ui;
     QString root_path_;

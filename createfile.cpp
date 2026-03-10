@@ -41,6 +41,43 @@ CreateFile::CreateFile(QWidget *parent)
         }
 )");
 }
+CreateFile::CreateFile(const QString& path, QWidget *parent)
+    : QDialog(parent), ui(new Ui::CreateFile), path_(path)
+{
+    ui->setupUi(this);
+    ui->le_file_name->setText(file_name_);
+    ui->le_file_path->setText(path_ + "/" + file_name_);
+    create_file_in_current_folder_ = true;
+    this->setStyleSheet(R"(
+        QMainWindow {
+            background-color: #3b3330;
+        }
+        QWidget {
+            background-color: #3b3330;
+        }
+        QLabel{
+            color: #7a6e65;
+        }
+        QLineEdit{
+            color: #7a6e65;
+            font-size: 11px;
+        }
+        QPushButton {
+            background-color: #3b3330;
+            border: none;
+            color: #7a6e65;
+            padding: 6px 12px;
+            font-size: 11px;
+            text-align: left;
+        }
+        QPushButton:hover {
+            color: #f0dfc0;
+        }
+        QPushButton:pressed {
+            color: #c5b597;
+        }
+)");
+}
 
 CreateFile::~CreateFile()
 {
@@ -79,9 +116,11 @@ void CreateFile::on_pb_create_clicked()
         out << "}\n";
         out.close();
         this->close();
-        Editor* editor = new Editor(path_);
-        editor->setAttribute(Qt::WA_DeleteOnClose);
-        editor->show();
+        if(!create_file_in_current_folder_){
+            Editor* editor = new Editor(path_);
+            editor->setAttribute(Qt::WA_DeleteOnClose);
+            editor->show();
+        }
     }else{
         QMessageBox::information(this, "TurboIDE", "Файл не удалось открыть!");
         return;
