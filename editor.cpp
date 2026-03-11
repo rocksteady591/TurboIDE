@@ -283,15 +283,13 @@ Editor::Editor(const QString& path, QWidget *parent)
         }
     });
 
-    connect(tree, &QTreeView::customContextMenuRequested, this, [this, tree, model](){
-        QPoint pos = QCursor::pos();
+    connect(tree, &QTreeView::customContextMenuRequested, this, [this, tree, model](const QPoint& pos){
         this->showContextMenu(pos, tree, model);
     });
 }
 
 void Editor::showContextMenu(const QPoint& pos, QTreeView* tree, MyQFileSystemModel* model){
-    QPoint localPos = tree->viewport()->mapFromGlobal(pos);
-    QModelIndex index = tree->indexAt(localPos);
+    QModelIndex index = tree->indexAt(pos);
     if(index.isValid()){
         QMenu contextMenu(this);
         QAction* actionDelete = contextMenu.addAction("Delete");
@@ -301,7 +299,7 @@ void Editor::showContextMenu(const QPoint& pos, QTreeView* tree, MyQFileSystemMo
         connect(actionNewFile, &QAction::triggered, this, [index, model](){
             if(model->isDir(index)){
                 QString folderPath = model->filePath(index);
-                CreateFile* createNewFile = new CreateFile(folderPath);
+                CreateFile* createNewFile = new CreateFile(folderPath, FolderOrFile::FILE);
                 createNewFile->setAttribute(Qt::WA_DeleteOnClose);
                 createNewFile->setWindowTitle("Create file");
                 createNewFile->show();
@@ -327,8 +325,16 @@ void Editor::showContextMenu(const QPoint& pos, QTreeView* tree, MyQFileSystemMo
             }
         });
 
-        connect(actionNewFolder, &QAction::triggered, this, [=](){
-
+        connect(actionNewFolder, &QAction::triggered, this, [model, index](){
+            if(model->isDir(index)){
+                QDir current_dir = model->filePath(index);
+                if(current_dir.exists()){
+                    CreateFile* createNewFolder = new CreateFile(model->filePath(index), FolderOrFile::FOLDER);
+                    createNewFolder->setAttribute(Qt::WA_DeleteOnClose);
+                    createNewFolder->setWindowTitle("Create folder");
+                    createNewFolder->show();
+                }
+            }
         });
 
         contextMenu.exec(tree->viewport()->mapToGlobal(pos));

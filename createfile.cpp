@@ -41,12 +41,23 @@ CreateFile::CreateFile(QWidget *parent)
         }
 )");
 }
-CreateFile::CreateFile(const QString& path, QWidget *parent)
-    : QDialog(parent), ui(new Ui::CreateFile), path_(path)
+CreateFile::CreateFile(const QString& path, const FolderOrFile type, QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::CreateFile)
+    , path_(path)
+    , type_(type)
 {
     ui->setupUi(this);
-    ui->le_file_name->setText(file_name_);
-    ui->le_file_path->setText(path_ + "/" + file_name_);
+    if(type == FolderOrFile::FILE){
+        ui->le_file_name->setText(file_name_);
+        ui->le_file_path->setText(path_ + "/" + file_name_);
+    }else{
+        ui->lb_file_name->hide();
+        ui->le_file_name->hide();
+        path_ += "/new_folder";
+        ui->le_file_path->setText(path_);
+    }
+
     create_file_in_current_folder_ = true;
     this->setStyleSheet(R"(
         QMainWindow {
@@ -108,22 +119,29 @@ void CreateFile::on_le_file_name_textEdited(const QString &arg1)
 
 void CreateFile::on_pb_create_clicked()
 {
-    std::ofstream out(path_.toStdString() + "/" + file_name_.toStdString(), std::ios::app);
-    if(out.is_open()){
-        out << "#include <iostream>\n";
-        out << "int main(){\n";
-        out << "\tstd::cout << \"Hello, world!\";\n";
-        out << "}\n";
-        out.close();
-        this->close();
-        if(!create_file_in_current_folder_){
-            Editor* editor = new Editor(path_);
-            editor->setAttribute(Qt::WA_DeleteOnClose);
-            editor->show();
+    if(type_ == FolderOrFile::FILE){
+        std::ofstream out(path_.toStdString() + "/" + file_name_.toStdString(), std::ios::app);
+        if(out.is_open()){
+            out << "#include <iostream>\n";
+            out << "int main(){\n";
+            out << "\tstd::cout << \"Hello, world!\";\n";
+            out << "}\n";
+            out.close();
+            if(!create_file_in_current_folder_){
+                Editor* editor = new Editor(path_);
+                editor->setAttribute(Qt::WA_DeleteOnClose);
+                editor->show();
+            }
+            this->close();
         }
     }else{
-        QMessageBox::information(this, "TurboIDE", "Файл не удалось открыть!");
-        return;
+        if(std::filesystem::create_directory(ui->le_file_path->text().toStdString())){
+            QMessageBox::information(this, "TurboIDE", "Папка успешно создана");
+            this->close();
+        }else{
+            QMessageBox::information(this, "TurboIDE", "Папку не удалось создать");
+        }
     }
+
 }
 

@@ -8,13 +8,18 @@ namespace Ui {
 class CreateFile;
 }
 
+enum class FolderOrFile{
+    FOLDER,
+    FILE
+};
+
 class CreateFile : public QDialog
 {
     Q_OBJECT
 
 public:
     explicit CreateFile(QWidget *parent = nullptr);
-    explicit CreateFile(const QString& path, QWidget *parent = nullptr);
+    explicit CreateFile(const QString& path, const FolderOrFile type, QWidget *parent = nullptr);
     ~CreateFile();
 
 private slots:
@@ -29,6 +34,7 @@ private:
     bool create_file_in_current_folder_ = false;
     QString path_;
     QString file_name_ = "test_file.cpp";
+    FolderOrFile type_ = FolderOrFile::FILE;
 };
 
 #endif // CREATEFILE_H
