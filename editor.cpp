@@ -1,5 +1,6 @@
 #include "createfile.h"
 #include "editor.h"
+#include "mainwindow.h"
 #include "ui_editor.h"
 
 #include <QSplitter>
@@ -146,46 +147,63 @@ Editor::Editor(const QString& path, QWidget *parent)
     if (ui->statusbar) {
         ui->statusbar->hide();
     }
+    terminal_path_ = root_path_;
     this->setStyleSheet(R"(
         QMainWindow {
-            background-color: #3b3330;
+            background-color: #011627;
         }
         QWidget {
-            background-color: #3b3330;
+            background-color: #011627;
         }
         QLabel{
-            color: #7a6e65;
-        }
-        QAction{
-            border: #062d44;
-            color: #7a6e65;
-            background-color: #000a11;
-        }
-        QMenu{
-            color: #7a6e65;
-            border: #062d44;
-            background-color: #000a11;
-        }
-        QTreeView{
-            color: #7a6e65;
+            color: #105a7e;
         }
         QPlainTextEdit{
-            color: #ffffff;
-            background-color: #262624;
+            color: #105a7e;
+        }
+        QTreeView{
+            color: #105a7e;
+        }
+        QAction{
+            color: #105a7e;
+        }
+        QAction:hover{
+            color: #f5f9fe;
+            background-color: #0b2942;
+        }
+        QMenu{
+            color: #105a7e;
+        }
+        QGroupBox{
+            color: #105a7e;
+        }
+        QLineEdit{
+            color: #105a7e;
+        }
+        QHeaderView::section{
+            color: #105a7e;
+        }
+        QMenuBar{
+            color: #105a7e;
+        }
+        QMenu::item:selected {
+            color: #f5f9fe;
+            background-color: #0b2942;
         }
         QPushButton {
-            background-color: #3b3330;
+            background-color: #011627;
             border: none;
-            color: #7a6e65;
+            color: #105a7e;
             padding: 6px 12px;
-            font-size: 11px;
+            font-size: 15px;
             text-align: left;
         }
         QPushButton:hover {
-            color: #f0dfc0;
+            color: #f5f9fe;
+            background-color: #0b2942;
         }
         QPushButton:pressed {
-            color: #c5b597;
+            color: #93d0ea;
         }
 )");
     //шорткат на сохранение файла из QPlainTextEdit
@@ -193,7 +211,7 @@ Editor::Editor(const QString& path, QWidget *parent)
     //сплиттер горизонтальный
     QSplitter* splitter = new QSplitter(Qt::Horizontal, this);
     //модель файловой системы
-    MyQFileSystemModel *model = new MyQFileSystemModel(this);
+    MyQFileSystemModel *model = new MyQFileSystemModel(path, this);
     model->setRootPath(root_path_);
     //дерево файлов
     QTreeView* tree = new QTreeView(splitter);
@@ -219,7 +237,7 @@ Editor::Editor(const QString& path, QWidget *parent)
     QPlainTextEdit* terminalOutput = new QPlainTextEdit(terminalPanel);
     terminalOutput->setReadOnly(true);
     QLineEdit* inputTerminal = new QLineEdit(terminalPanel);
-    inputTerminal->setPlaceholderText("$ введите команду...");
+    inputTerminal->setPlaceholderText(terminal_path_ + "$ ");
     termLayout->addWidget(terminalOutput);
     termLayout->addWidget(inputTerminal);
     terminalPanel->hide();
@@ -251,7 +269,6 @@ Editor::Editor(const QString& path, QWidget *parent)
         }
     });
 
-
     connect(shortcut, &QShortcut::activated, this, [text_edit, this](){
         QFile file(open_file_);
         if(file.open(QIODevice::WriteOnly | QIODevice::Text)){
@@ -266,7 +283,6 @@ Editor::Editor(const QString& path, QWidget *parent)
     setCentralWidget(splitter);
     splitter->setSizes({250, 750});
 
-
     connect(tree, &QTreeView::clicked, this, [model, text_edit, tree, this](const QModelIndex& index){
         QString path = model->filePath(index);
         open_file_ = path;
@@ -279,12 +295,24 @@ Editor::Editor(const QString& path, QWidget *parent)
         }else{
             bool isExpanded = tree->isExpanded(index);
             tree->setExpanded(index, !isExpanded);
-
         }
     });
 
     connect(tree, &QTreeView::customContextMenuRequested, this, [this, tree, model](const QPoint& pos){
         this->showContextMenu(pos, tree, model);
+    });
+
+    connect(ui->actionclose_project, &QAction::triggered, this, [this](){
+        MainWindow* mainWindow = new MainWindow();
+        mainWindow->setAttribute(Qt::WA_DeleteOnClose);
+        mainWindow->show();
+        this->close();
+    });
+
+    connect(ui->actioncreate_file, &QAction::triggered, this, [&](){
+        CreateFile* createFile = new CreateFile(root_path_, FolderOrFile::FILE);
+        createFile->setAttribute(Qt::WA_DeleteOnClose);
+        createFile->show();
     });
 }
 
@@ -345,7 +373,7 @@ void Editor::showContextMenu(const QPoint& pos, QTreeView* tree, MyQFileSystemMo
 QVariant MyQFileSystemModel::headerData(int section, Qt::Orientation orientation, int role) const{
     if(role == Qt::DisplayRole && orientation == Qt::Horizontal){
         if(section == 0){
-            return "Project";
+            return path_;
         }
     }
     return QVariant();

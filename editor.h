@@ -33,11 +33,13 @@ private:
 class MyQFileSystemModel : public QFileSystemModel {
     Q_OBJECT
 public:
-    explicit MyQFileSystemModel(QObject* parent = nullptr)
-        : QFileSystemModel(parent) {}
+    explicit MyQFileSystemModel(const QString& path, QObject* parent = nullptr)
+        : QFileSystemModel(parent), path_(path) {}
 
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
+private:
+    QString path_;
 };
 
 // полоса с номерами — прикрепляется слева от редактора
@@ -79,6 +81,7 @@ private slots:
 private:
     Ui::Editor* ui;
     QString root_path_;
+    QString terminal_path_;
     QString open_file_;
 };
 

@@ -16,29 +16,38 @@ GitAddWidget::GitAddWidget(QWidget *parent)
 
     this->setStyleSheet(R"(
         QMainWindow {
-            background-color: #3b3330;
+            background-color: #011627;
         }
         QWidget {
-            background-color: #3b3330;
+            background-color: #011627;
+        }
+        QLineEdit{
+            color: #105a7e;
         }
         QLabel{
-            color: #7a6e65;
+            color: #105a7e;
+        }
+        QPlainTextEdit{
+            color: white;
+        }
+        QGroupBox{
+            color: #105a7e;
         }
         QPushButton {
-            background-color: #3b3330;
+            background-color: #011627;
             border: none;
-            color: #7a6e65;
+            color: #105a7e;
             padding: 6px 12px;
-            font-size: 11px;
+            font-size: 15px;
             text-align: left;
         }
         QPushButton:hover {
-            color: #f0dfc0;
+            color: #f5f9fe;
+            background-color: #0b2942;
         }
         QPushButton:pressed {
-            color: #c5b597;
+            color: #93d0ea;
         }
-
 )");
 }
 

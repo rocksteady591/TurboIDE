@@ -11,33 +11,36 @@ CreateProject::CreateProject(QWidget *parent)
 {
     ui->setupUi(this);
     this->setStyleSheet(R"(
-    QPushButton {
-        background-color: transparent;
-        border: none;
-        color: #c5b597;
-        padding: 6px 12px;
-        font-size: 11px;
-        text-align: left;
-    }
-    QLabel{
-        color: #7a6e65;
-    }
-    QMessageBox {
-        background-color: transparent;
-        color: #c5b597;
-    }
-    QPushButton:flat {
-        background-color: #5b524c;
-    }
-    QPushButton:hover {
-        background-color: #5b524c;
-        color: #c5b597;
-    }
-
-    QPushButton:pressed {
-        background-color: #5b524c;
-    }
-
+        QMainWindow {
+            background-color: #011627;
+        }
+        QWidget {
+            background-color: #011627;
+        }
+        QLabel{
+            color: #105a7e;
+        }
+        QLineEdit{
+            color: #105a7e;
+        }
+        QGroupBox{
+            color: #105a7e;
+        }
+        QPushButton {
+            background-color: #011627;
+            border: none;
+            color: #105a7e;
+            padding: 6px 12px;
+            font-size: 15px;
+            text-align: left;
+        }
+        QPushButton:hover {
+            color: #f5f9fe;
+            background-color: #0b2942;
+        }
+        QPushButton:pressed {
+            color: #93d0ea;
+        }
 )");
 }
 
