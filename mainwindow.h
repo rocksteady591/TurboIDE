@@ -16,6 +16,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void updateHistory(const QString& path);
+    void loadHistory();
+    void openProject(const QString& path);
 
 private slots:
     void on_pb_new_file_clicked();
@@ -28,5 +31,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    static const int count_path_history_ = 6;
 };
 #endif // MAINWINDOW_H

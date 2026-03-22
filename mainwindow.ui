@@ -112,19 +112,11 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QGroupBox" name="gb_config">
+       <widget class="QGroupBox" name="gb_history">
         <property name="title">
-         <string>CONFIGURE</string>
+         <string>   HISTORY</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <widget class="QPushButton" name="pb_settings">
-           <property name="text">
-            <string>Settings</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <layout class="QVBoxLayout" name="verticalLayout_6"/>
        </widget>
       </item>
      </layout>
