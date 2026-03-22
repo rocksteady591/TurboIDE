@@ -1,5 +1,6 @@
 #include "createfile.h"
 #include "editor.h"
+#include "findword.h"
 #include "mainwindow.h"
 #include "ui_editor.h"
 
@@ -208,6 +209,8 @@ Editor::Editor(const QString& path, QWidget *parent)
 )");
     //шорткат на сохранение файла из QPlainTextEdit
     QShortcut* shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_S), this);
+    //шорткат для вызова окна поиска
+    QShortcut* find_word_shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this);
     //сплиттер горизонтальный
     QSplitter* splitter = new QSplitter(Qt::Horizontal, this);
     //модель файловой системы
@@ -251,6 +254,11 @@ Editor::Editor(const QString& path, QWidget *parent)
     connect(bash_process, &QProcess::readyReadStandardError, this, [=](){
         terminalOutput->appendPlainText(bash_process->readAllStandardError());
     });
+    connect(inputTerminal, &QLineEdit::textEdited, this, [&](const QString& str){
+        if(str.size() == 0){
+
+        }
+    });
     connect(inputTerminal, &QLineEdit::returnPressed, this, [=](){
         QString cmd = inputTerminal->text();
         terminalOutput->appendPlainText("$ " + cmd);
@@ -278,6 +286,10 @@ Editor::Editor(const QString& path, QWidget *parent)
         }else{
             QMessageBox::information(this, "TurboIDE", "Невозможно сохранить файл");
         }
+    });
+    connect(find_word_shortcut, &QShortcut::activated, this, [this, text_edit](){
+        FindWord* find_word = new FindWord(text_edit, this);
+        find_word->show();
     });
     new CppHighlighter(text_edit->document());
     setCentralWidget(splitter);

@@ -12,6 +12,7 @@ SOURCES += \
     createfile.cpp \
     createproject.cpp \
     editor.cpp \
+    findword.cpp \
     gitaddwidget.cpp \
     main.cpp \
     mainwindow.cpp
@@ -20,6 +21,7 @@ HEADERS += \
     createfile.h \
     createproject.h \
     editor.h \
+    findword.h \
     gitaddwidget.h \
     mainwindow.h
 
@@ -27,6 +29,7 @@ FORMS += \
     createfile.ui \
     createproject.ui \
     editor.ui \
+    findword.ui \
     gitaddwidget.ui \
     mainwindow.ui
 
