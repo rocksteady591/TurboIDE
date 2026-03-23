@@ -1,5 +1,6 @@
 #include "createfile.h"
 #include "editor.h"
+#include "mainwindow.h"
 #include "ui_createfile.h"
 #include <fstream>
 #include <QFileDialog>
@@ -132,10 +133,19 @@ void CreateFile::on_pb_create_clicked()
             out.close();
             if(!create_file_in_current_folder_){
                 Editor* editor = new Editor(path_);
+                auto* parent_ptr = qobject_cast<MainWindow*>(parent());
+                if(parent_ptr){
+                    parent_ptr->updateHistory(path_);
+                }
                 editor->setAttribute(Qt::WA_DeleteOnClose);
                 editor->show();
+                this->close();
+                if(parent_ptr){
+                    parent_ptr->close();
+                }
+
             }
-            this->close();
+
         }
     }else{
         if(std::filesystem::create_directory(ui->le_file_path->text().toStdString())){

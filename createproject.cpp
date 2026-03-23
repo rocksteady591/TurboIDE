@@ -1,5 +1,6 @@
 #include "createproject.h"
 #include "editor.h"
+#include "mainwindow.h"
 #include "ui_createproject.h"
 #include <fstream>
 #include <QFileDialog>
@@ -93,6 +94,10 @@ void CreateProject::on_pb_create_clicked()
             out_cpp << "}\n";
             this->close();
             Editor* editor = new Editor(path_ + "/" + project_name_);
+            auto* parent_ptr = qobject_cast<MainWindow*>(parent());
+            if(parent_ptr){
+                parent_ptr->updateHistory(path_ + "/" + project_name_);
+            }
             editor->setAttribute(Qt::WA_DeleteOnClose);
             editor->show();
         }else {

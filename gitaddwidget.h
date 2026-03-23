@@ -1,14 +1,13 @@
 #ifndef GITADDWIDGET_H
 #define GITADDWIDGET_H
 
-#include "qdialog.h"
 #include <QWidget>
 
 namespace Ui {
 class GitAddWidget;
 }
 
-class GitAddWidget : public QDialog
+class GitAddWidget : public QWidget
 {
     Q_OBJECT
 
@@ -32,7 +31,6 @@ private slots:
 private:
     Ui::GitAddWidget *ui;
     QString path_;
-    QWidget *QDialog;
 };
 
 #endif // GITADDWIDGET_H

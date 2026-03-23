@@ -130,8 +130,9 @@ void MainWindow::on_pb_create_project_clicked()
 
 void MainWindow::on_pb_clone_repo_clicked()
 {
-    GitAddWidget dialog(this);
-    dialog.setWindowTitle("Clone repository");
-    dialog.exec();
+    GitAddWidget* dialog = new GitAddWidget(this);
+    //dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->setWindowTitle("Clone repository");
+    dialog->show();
 }
 
